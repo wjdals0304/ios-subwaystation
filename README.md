@@ -16,7 +16,7 @@
 
  - UISearchController 
 
-  ```
+  ```Swift
    let searchController = UISearchController()
    searchController.searchBar.placeholder = "지하철역을 입력해주세요."
         
@@ -29,7 +29,7 @@
    
  - closer 안에 self 사용 
  
-  ``` 
+  ```Swift
    // 클로즈안에서 self를 사용할 경우는 [weak self] 사용
    // 사용안하면 강한 참조가 되어서 앱이 죽을수 있는 원인이 될 수 있음
 
@@ -41,12 +41,12 @@
 
   ```
   
+  
  - UICollectionView 
   estimatedItemSize ,sectionInset 속성 적용
 
-   ``` 
-   
-    private lazy var collectionView: UICollectionView = {
+  ```Swift
+   private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = CGSize(width: view.frame.width - 32.0 , height: 100.0)
         layout.sectionInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
@@ -64,4 +64,41 @@
     }()
     
    
-   ```
+  ```
+ 
+- model 구성 
+
+ realtimeArrivalList": [
+  {
+   "beginRow": null,
+   "endRow": null,
+   "curPage": null,
+   "pageRow": null,
+   "totalCount": 19,
+   "rowNum": 1, .....
+   }
+  
+  ```Swift
+  class StationArrivalDataResponseModel: Decodable {
+    
+    var realtimeArrivalList: [RealTimeArrival] = []
+    
+    struct RealTimeArrival: Decodable {
+        
+        let line: String // ~행~
+        let remainTime: String // 도착까지 남은 시간 or 전역 출발
+        let currentStation: String // 현재위치
+        
+        enum CodingKeys: String, CodingKey {
+            case line = "trainLineNm"
+            case remainTime = "arvlMsg2"
+            case currentStation = "arvlMsg3"
+        }
+    }
+    
+}
+
+  
+  ```
+  
+  
